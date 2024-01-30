@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"golang_mvc_REST_API/db"
 	"golang_mvc_REST_API/models"
 	"golang_mvc_REST_API/views"
@@ -14,11 +15,11 @@ type OrderController struct {
 	db db.DbInterface
 }
 
-func NewOrderController(newDB db.DbInterface) *OrderController {
+func NewOrder(newDB db.DbInterface) *OrderController {
 	return &OrderController{db: newDB}
 }
 
-func (o *OrderController) MakeOrderController(w http.ResponseWriter, r *http.Request) {
+func (o *OrderController) MakeOrder(w http.ResponseWriter, r *http.Request) {
 	log.Println("Make order controller")
 	body, err := io.ReadAll(r.Body)
 
@@ -37,11 +38,12 @@ func (o *OrderController) MakeOrderController(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	o.db.AddOrder(newOrder)
+	IdOrder := o.db.AddOrder(newOrder)
+	w.Write([]byte(fmt.Sprintf("Order added successfully. ID: %d\n", IdOrder)))
 
 }
 
-func (o *OrderController) DeleteOrderController(w http.ResponseWriter, r *http.Request) {
+func (o *OrderController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	log.Println("Delete order controller")
 	body, err := io.ReadAll(r.Body)
 
@@ -66,6 +68,7 @@ func (o *OrderController) DeleteOrderController(w http.ResponseWriter, r *http.R
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	w.Write([]byte(fmt.Sprintf("Order deleted successfully. ID: %d\n", newDeleteRequest.IdOrder)))
 
 }
 

@@ -34,7 +34,7 @@ func NewMysqlMenuState() *MysqlMenuState {
 	}
 }
 
-func (m *MysqlMenuState) AddOrder(newOrder models.Order) {
+func (m *MysqlMenuState) AddOrder(newOrder models.Order) (IdOrder int) {
 	userBody, err := json.Marshal(newOrder.OrderBody)
 	if err != nil {
 		log.Println(err)
@@ -53,7 +53,7 @@ func (m *MysqlMenuState) AddOrder(newOrder models.Order) {
 	}
 
 	log.Printf("Order added successfully. ID: %d\n", lastInsertID)
-
+	return int(lastInsertID)
 }
 
 func (m *MysqlMenuState) DeleteOrder(newDeleteRequest models.DeleteOrderRequest) error {

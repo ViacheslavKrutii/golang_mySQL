@@ -15,6 +15,6 @@ func (m *MenuController) AddMenu(Menu *models.Menu) {
 
 }
 
-func (m *MenuController) ShowMenuController(w http.ResponseWriter, r *http.Request) {
+func (m *MenuController) ShowMenu(w http.ResponseWriter, r *http.Request) {
 	w.Write(views.JsonMenu(m.Menu))
 }

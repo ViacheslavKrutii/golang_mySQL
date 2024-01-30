@@ -8,6 +8,6 @@ RUN go mod download && go mod verify
 
 COPY . .
 WORKDIR /usr/src/app
-RUN go build -v -o http ./
+RUN go build -v -o menu ./
 
-CMD ./http
+CMD ./menu

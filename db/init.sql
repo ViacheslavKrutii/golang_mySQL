@@ -4,5 +4,5 @@ CREATE TABLE orders (
     Username VARCHAR(255),
     orderID int NOT NULL AUTO_INCREMENT,
     order_body JSON,
-    PRIMARY KEY (id)
+    PRIMARY KEY (orderID)
 );

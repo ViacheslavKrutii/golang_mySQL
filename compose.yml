@@ -1,0 +1,24 @@
+services:
+  menu:
+    build: .
+    ports:
+      - 8080:8080
+    # environment:
+    #   MYSQL_HOST: mysql
+    #   MYSQL_USER: root
+    #   MYSQL_PASSWORD: <your-password>
+    #   MYSQL_DB: todos
+
+  mysql:
+    image: mysql:8
+    ports:
+      - 8083:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: menu
+
+volumes:
+  mysql-data:

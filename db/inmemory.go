@@ -3,32 +3,35 @@ package db
 import (
 	"errors"
 	"golang_mvc_REST_API/models"
-	"slices"
+	"log"
 )
 
 type InMemoryState struct {
-	orders map[models.User][]models.Order
+	orders       map[int]models.Order
+	lastInsertID int
 }
 
 func NewInMemoryState() *InMemoryState {
-	return &InMemoryState{orders: make(map[models.User][]models.Order)}
+	log.Print("memory state done\n")
+	return &InMemoryState{orders: make(map[int]models.Order)}
 }
 
-func (i *InMemoryState) AddOrder(newOrder models.Order) {
-
-	ordersSlice := append([]models.Order(nil), i.orders[newOrder.User]...)
-	ordersSlice = append(ordersSlice, newOrder)
-	i.orders[newOrder.User] = ordersSlice
+func (i *InMemoryState) AddOrder(newOrder models.Order) (IdOrder int) {
+	IdOrder = i.lastInsertID + 1
+	i.orders[IdOrder] = newOrder
+	i.lastInsertID = IdOrder
+	log.Printf("Order added successfully. ID: %d\n", IdOrder)
+	return IdOrder
 }
 
 func (i *InMemoryState) DeleteOrder(newDeleteRequest models.DeleteOrderRequest) error {
-
-	ordersSlice, ok := i.orders[newDeleteRequest.User]
-	if !ok || newDeleteRequest.IdOrder >= len(ordersSlice) {
+	_, ok := i.orders[newDeleteRequest.IdOrder]
+	if !ok {
 		err := errors.New("invalid order index")
 		return err
 	}
 
-	i.orders[newDeleteRequest.User] = slices.Delete(ordersSlice, newDeleteRequest.IdOrder, newDeleteRequest.IdOrder)
+	delete(i.orders, newDeleteRequest.IdOrder)
+	log.Printf("Order deleted successfully. ID: %d\n", newDeleteRequest.IdOrder)
 	return nil
 }
