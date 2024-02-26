@@ -14,7 +14,7 @@ func main() {
 	log.Print("main start done\n")
 	menu1 := &models.Menu{MenuItems: []models.MenuItem{{Name: "Борщ", Price: 10}}}
 	log.Print("menu init\n")
-	datastore := db.NewInMemoryState()
+	datastore := db.NewPgMenuState()
 
 	orderController := controllers.NewOrder(datastore)
 	menuController := controllers.MenuController{}

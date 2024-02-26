@@ -40,7 +40,7 @@ func (m *MysqlMenuState) AddOrder(newOrder models.Order) (IdOrder int) {
 		log.Println(err)
 		return
 	}
-	result, err := m.db.Exec("INSERT INTO orders (Username, order_body,) VALUES (?, ?)", newOrder.User.Name, userBody)
+	result, err := m.db.Exec("INSERT INTO orders (Username, order_body) VALUES (?, ?)", newOrder.User.Name, userBody)
 	if err != nil {
 		log.Println(err)
 		return

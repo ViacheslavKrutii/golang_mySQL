@@ -9,16 +9,28 @@ services:
     #   MYSQL_PASSWORD: <your-password>
     #   MYSQL_DB: todos
 
-  mysql:
-    image: mysql:8
-    ports:
-      - 8083:3306
+  # mysql:
+  #   image: mysql:8
+  #   ports:
+  #     - 8083:3306
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #     - ./db/initMySQL.sql:/docker-entrypoint-initdb.d/init.sql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: menu
+  postgres:
+    image: postgres
+    ports: 
+      - 5432:5432
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/initPSQL.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: menu
+     POSTGRES_USER: root
+     POSTGRES_PASSWORD: root
+     POSTGRES_DB: mydb
 
 volumes:
-  mysql-data:
+  # mysql-data:
+  postgres_data:
